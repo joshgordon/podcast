@@ -2,6 +2,7 @@
 
 import ConfigParser
 import sys
+import os
 from datetime import datetime
 import MySQLdb as mdb 
 
@@ -30,12 +31,7 @@ def writeHeader(config, outfile):
   outfile.write("    <itunes:keywords>%s</itunes:keywords>\n" % (config.get('podcast', 'keywords')))
   outfile.write("    <itunes:explicit>%s</itunes:explicit>\n" % (config.get('podcast', 'explicit')))
   outfile.write("""    <itunes:image href="%s" />\n""" % (config.get('podcast', 'itunesImage')))
-  outfile.write("""    <atom:link href="%s" rel="self" type="applica
-config = ConfigParser.ConfigParser() 
-config.read("config.ini")
-
-outfile = open(config.get('podcast', 'outputFileName'), 'w') 
-tion/rss+xml" />\n""" % (config.get('podcast', 'feedURL')))
+  outfile.write("""    <atom:link href="%s" rel="self" type="application/rss+xml" />\n""" % (config.get('podcast', 'feedURL')))
   timeNow=datetime.now().strftime("%a, %d %b %Y %H:%M:%S EST")
   outfile.write("    <pubDate>%s</pubDate>\n" % (timeNow))
   outfile.write("    <title>%s</title>\n" % (config.get('podcast', 'title')))
@@ -75,7 +71,10 @@ if __name__ == "__main__":
   
   config = ConfigParser.ConfigParser() 
   config.read("config.ini")
-  
+  try: 
+    os.remove(config.get('podcast', 'outputFileName'))
+  except OSError: 
+    pass
   outfile = open(config.get('podcast', 'outputFileName'), 'w') 
   
   writeHeader(config, outfile)
