@@ -40,7 +40,7 @@ con = mdb.connect(config.get('database', 'host'),
 
 with con: 
   cur = con.cursor(mdb.cursors.DictCursor)
-  table = config.get('database', 'tabe')
+  table = config.get('database', 'table')
   cur.execute("insert into " + table + "(title, link, pubdate, creator, " + 
               "series, description, shortDesc, length) values('%s', '%s', " + 
               "'%s', '%s', '%s', '%s', '%s', '%s');", 
