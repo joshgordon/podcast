@@ -10,6 +10,9 @@ import xml.etree.ElementTree as ET
 import re
 from datetime import datetime
 
+config = ConfigParser.ConfigParser() 
+config.read("config.ini") 
+
 filename=sys.argv[1]
 
 xml=subprocess.check_output(['mediainfo', filename, '--output=XML'])
