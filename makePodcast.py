@@ -82,7 +82,9 @@ if __name__ == "__main__":
   with con: 
     cur = con.cursor(mdb.cursors.DictCursor)
     
-    cur.execute("SELECT * FROM %s ORDER BY id", (config.get('database', 'table')))
+    database = config.get('database', 'table')
+
+    cur.execute("SELECT * FROM " + database + " ORDER BY id")
     
     episodes = cur.fetchall() 
     
