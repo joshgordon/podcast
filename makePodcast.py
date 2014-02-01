@@ -55,7 +55,8 @@ def addEpisode(info, outfile):
   outfile.write("      <description>%s</description>\n" % (info['description']))
   outfile.write("      <itunes:summary>%s</itunes:summary>\n" % (info['description']))
   outfile.write("      <itunes:subtitle>%s</itunes:subtitle>\n" % (info['shortDesc']))
-  outfile.write("""      enclosure url="%s" type="audio/mpeg" length="%s" />""" % (info['link'], info['length']))
+  length=info['length']
+  outfile.write("""      enclosure url="%s" type="audio/mpeg" length="%s" />""" % (info['link'], length))
   outfile.write("      <guid>%s</guid>" % (info['link']))
   duration="%1d:%02d:%02d" % (length/3600, length/60, length%60)
   outfile.write("      <itunes:duration>%s</itunes:duration>" % (duration))
