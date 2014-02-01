@@ -30,7 +30,12 @@ def writeHeader(config, outfile):
   outfile.write("    <itunes:keywords>%s</itunes:keywords>\n" % (config.get('podcast', 'keywords')))
   outfile.write("    <itunes:explicit>%s</itunes:explicit>\n" % (config.get('podcast', 'explicit')))
   outfile.write("""    <itunes:image href="%s" />\n""" % (config.get('podcast', 'itunesImage')))
-  outfile.write("""    <atom:link href="%s" rel="self" type="application/rss+xml" />\n""" % (config.get('podcast', 'feedURL')))
+  outfile.write("""    <atom:link href="%s" rel="self" type="applica
+config = ConfigParser.ConfigParser() 
+config.read("config.ini")
+
+outfile = open(config.get('podcast', 'outputFileName'), 'w') 
+tion/rss+xml" />\n""" % (config.get('podcast', 'feedURL')))
   timeNow=datetime.now().strftime("%a, %d %b %Y %H:%M:%S EST")
   outfile.write("    <pubDate>%s</pubDate>\n" % (timeNow))
   outfile.write("    <title>%s</title>\n" % (config.get('podcast', 'title')))
@@ -56,11 +61,11 @@ def addEpisode(info, outfile):
   outfile.write("      <itunes:summary>%s</itunes:summary>\n" % (info['description']))
   outfile.write("      <itunes:subtitle>%s</itunes:subtitle>\n" % (info['shortDesc']))
   length=info['length']
-  outfile.write("""      enclosure url="%s" type="audio/mpeg" length="%s" />""" % (info['link'], length))
-  outfile.write("      <guid>%s</guid>" % (info['link']))
-  duration="%1d:%02d:%02d" % (length/3600, length/60, length%60)
-  outfile.write("      <itunes:duration>%s</itunes:duration>" % (duration))
-  outfile.write("    </item>") 
+  outfile.write("""      enclosure url="%s" type="audio/mpeg" length="%s" />\n""" % (info['link'], length))
+  outfile.write("      <guid>%s</guid>\n" % (info['link']))
+  duration="%1d:%02d:%02d" % (length/3600, (length/60)%60, length%60)
+  outfile.write("      <itunes:duration>%s</itunes:duration>\n" % (duration))
+  outfile.write("    </item>\n") 
 
 def writeFooter(outfile): 
   outfile.write("  </channel>\n")
