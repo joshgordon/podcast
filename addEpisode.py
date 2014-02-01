@@ -11,9 +11,9 @@ import re
 from datetime import datetime
 
 config = ConfigParser.ConfigParser() 
-config.read("config.ini") 
+config.read(sys.argv[1]) 
 
-filename=sys.argv[1]
+filename=sys.argv[2]
 
 xml=subprocess.check_output(['mediainfo', filename, '--output=XML'])
 

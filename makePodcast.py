@@ -71,7 +71,7 @@ def writeFooter(outfile):
 if __name__ == "__main__": 
   
   config = ConfigParser.ConfigParser() 
-  config.read("config.ini")
+  config.read(sys.argv[1])
   try: 
     os.remove(config.get('podcast', 'outputFileName'))
   except OSError: 
