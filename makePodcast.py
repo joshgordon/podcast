@@ -93,4 +93,4 @@ if __name__ == "__main__":
       addEpisode(episode, outfile) 
                     
   
-    writeFooter() 
+    writeFooter(outfile) 
