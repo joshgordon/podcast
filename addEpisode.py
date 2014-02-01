@@ -20,17 +20,37 @@ xml=subprocess.check_output(['mediainfo', filename, '--output=XML'])
 root = ET.fromstring(xml) 
 
 
-#get the time. 
-t_re=re.compile("(..)mn (..)s")
-len = t_re.search(root[0][1][3].text)
-time = int(len.group(1)) * 60 + int(len.group(2)) 
+#Regex for parsing time. 
+t_re=re.compile("(.{1,2})mn (.{1,2})s")
 
-link=root[0][0][0].text
-series=root[0][0][6].text
-title=root[0][0][7].text
-creator=root[0][0][9].text
-comment=root[0][0][14].text
+time = "" 
+link=""
+series=""
+title=""
+creator=""
+comment=""
+
+
+for tag in root[0][0]: 
+  if tag.tag == "Complete_name": 
+    link=tag.text
+  elif tag.tag == "Album": 
+    series=tag.text
+  elif tag.tag == "Track_name":
+    title=tag.text
+  elif tag.tag == "Performer": 
+    creator=tag.text
+  elif tag.tag == "Comment": 
+    comment=tag.text
+  elif tag.tag == "Duration": 
+    print tag.text
+    len = t_re.search(tag.text)
+    time = int(len.group(1)) * 60 + int(len.group(2)) 
+
 pubdate=datetime.now().strftime("%a, %d %b %Y %H:%M:%S EST")
+
+#Add some more info to the comment. 
+comment+= ". " + creator + ". Part of the series: \"" + series + "\"." 
 
 
 con = mdb.connect(config.get('database', 'host'), 

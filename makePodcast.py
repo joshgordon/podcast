@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 #This is a friday-night hack. Please excuse the hackieness. 
 
 import ConfigParser
@@ -16,11 +17,11 @@ def writeHeader(config, outfile):
   outfile.write("    <copyright>%s</copyright>\n" % (config.get('podcast', 'copyright')))
   outfile.write("    <webMaster>%s</webMaster>\n" % (config.get('podcast', 'webMaster')))
   outfile.write("    <managingEditor>%s</managingEditor>\n" % (config.get('podcast', 'managingEditor')))
-  outfile.write("    <image>\n")
-  outfile.write("      <url>%s</url>\n" % (config.get('podcast', 'imageURL')))
-  outfile.write("      <title>%s</title>\n" % (config.get('podcast', 'imageTitle')))
-  outfile.write("      <link>%s</link>\n" % (config.get('podcast', 'imageLink')))
-  outfile.write("    <image>\n") 
+#  outfile.write("    <image>\n")
+#  outfile.write("      <url>%s</url>\n" % (config.get('podcast', 'imageURL')))
+#  outfile.write("      <title>%s</title>\n" % (config.get('podcast', 'imageTitle')))
+#  outfile.write("      <link>%s</link>\n" % (config.get('podcast', 'imageLink')))
+#  outfile.write("    <image>\n") 
   outfile.write("    <itunes:owner>\n")
   outfile.write("      <itunes:name>%s</itunes:name>\n" % (config.get('podcast', 'ownerName')))
   outfile.write("      <itunes:email>%s</itunes:email>\n" % (config.get('podcast', 'ownerEmail')))
@@ -30,7 +31,7 @@ def writeHeader(config, outfile):
   outfile.write("    </itunes:category>\n")
   outfile.write("    <itunes:keywords>%s</itunes:keywords>\n" % (config.get('podcast', 'keywords')))
   outfile.write("    <itunes:explicit>%s</itunes:explicit>\n" % (config.get('podcast', 'explicit')))
-  outfile.write("""    <itunes:image href="%s" />\n""" % (config.get('podcast', 'itunesImage')))
+#  outfile.write("""    <itunes:image href="%s" />\n""" % (config.get('podcast', 'itunesImage')))
   outfile.write("""    <atom:link href="%s" rel="self" type="application/rss+xml" />\n""" % (config.get('podcast', 'feedURL')))
   timeNow=datetime.now().strftime("%a, %d %b %Y %H:%M:%S EST")
   outfile.write("    <pubDate>%s</pubDate>\n" % (timeNow))
@@ -57,7 +58,7 @@ def addEpisode(info, outfile):
   outfile.write("      <itunes:summary>%s</itunes:summary>\n" % (info['description']))
   outfile.write("      <itunes:subtitle>%s</itunes:subtitle>\n" % (info['shortDesc']))
   length=info['length']
-  outfile.write("""      enclosure url="%s" type="audio/mpeg" length="%s" />\n""" % (info['link'], length))
+  outfile.write("""      <enclosure url="%s" type="audio/mpeg" length="%s" />\n""" % (info['link'], length))
   outfile.write("      <guid>%s</guid>\n" % (info['link']))
   duration="%1d:%02d:%02d" % (length/3600, (length/60)%60, length%60)
   outfile.write("      <itunes:duration>%s</itunes:duration>\n" % (duration))
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     
     database = config.get('database', 'table')
 
-    cur.execute("SELECT * FROM " + database + " ORDER BY id")
+    cur.execute("SELECT * FROM " + database + " ORDER BY id DESC")
     
     episodes = cur.fetchall() 
     
