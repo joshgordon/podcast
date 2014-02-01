@@ -3,7 +3,7 @@
 import ConfigParser
 import sys
 from datetime import datetime
-# import MySQLdb as mdb 
+import MySQLdb as mdb 
 
 # write out the header: 
 def writeHeader(config, outfile): 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
   with con: 
     cur = con.cursor(mdb.cursors.DictCursor)
     
-    cur.execute("SELECT * FROM %s ORDER BY id", config.get('database', 'table'))
+    cur.execute("SELECT * FROM %s ORDER BY id", (config.get('database', 'table')))
     
     episodes = cur.fetchall() 
     
