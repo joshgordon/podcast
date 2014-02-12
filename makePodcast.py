@@ -17,11 +17,12 @@ def writeHeader(config, outfile):
   outfile.write("    <copyright>%s</copyright>\n" % (config.get('podcast', 'copyright')))
   outfile.write("    <webMaster>%s</webMaster>\n" % (config.get('podcast', 'webMaster')))
   outfile.write("    <managingEditor>%s</managingEditor>\n" % (config.get('podcast', 'managingEditor')))
-#  outfile.write("    <image>\n")
-#  outfile.write("      <url>%s</url>\n" % (config.get('podcast', 'imageURL')))
-#  outfile.write("      <title>%s</title>\n" % (config.get('podcast', 'imageTitle')))
-#  outfile.write("      <link>%s</link>\n" % (config.get('podcast', 'imageLink')))
-#  outfile.write("    <image>\n") 
+  if config.get('podcast', 'hasImage') == "yes": 
+    outfile.write("    <image>\n")
+    outfile.write("      <url>%s</url>\n" % (config.get('podcast', 'imageURL')))
+    outfile.write("      <title>%s</title>\n" % (config.get('podcast', 'imageTitle')))
+    outfile.write("      <link>%s</link>\n" % (config.get('podcast', 'imageLink')))
+    outfile.write("    </image>\n") 
   outfile.write("    <itunes:owner>\n")
   outfile.write("      <itunes:name>%s</itunes:name>\n" % (config.get('podcast', 'ownerName')))
   outfile.write("      <itunes:email>%s</itunes:email>\n" % (config.get('podcast', 'ownerEmail')))
@@ -31,7 +32,8 @@ def writeHeader(config, outfile):
   outfile.write("    </itunes:category>\n")
   outfile.write("    <itunes:keywords>%s</itunes:keywords>\n" % (config.get('podcast', 'keywords')))
   outfile.write("    <itunes:explicit>%s</itunes:explicit>\n" % (config.get('podcast', 'explicit')))
-#  outfile.write("""    <itunes:image href="%s" />\n""" % (config.get('podcast', 'itunesImage')))
+  if config.get('podcast', 'hasImage') == "yes": 
+    outfile.write("""    <itunes:image href="%s" />\n""" % (config.get('podcast', 'itunesImage')))
   outfile.write("""    <atom:link href="%s" rel="self" type="application/rss+xml" />\n""" % (config.get('podcast', 'feedURL')))
   timeNow=datetime.now().strftime("%a, %d %b %Y %H:%M:%S EST")
   outfile.write("    <pubDate>%s</pubDate>\n" % (timeNow))
@@ -39,7 +41,7 @@ def writeHeader(config, outfile):
   outfile.write("    <itunes:author>%s</itunes:author>\n" % (config.get('podcast', 'author')))
   outfile.write("    <description>%s</description>\n" % (config.get('podcast', 'description')))
   outfile.write("    <itunes:summary>%s</itunes:summary>\n" % (config.get('podcast', 'description')))
-  outfile.write("    <itunes:subtitle>%s</itunes:subtitle>\n" % (config.get('podcast', 'description')))
+  outfile.write("    <itunes:subtitle>%s</itunes:subtitle>\n" % (config.get('podcast', 'shortDescription')))
   outfile.write("    <lastBuildDate>%s</lastBuildDate>\n" % (timeNow))
 
 
