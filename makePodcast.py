@@ -56,6 +56,8 @@ def writeHeader(config, outfile):
 def addEpisode(info, outfile): 
   outfile.write("    <item>\n") 
   outfile.write("      <title>%s</title>\n" % (info['title']))
+  outfile.write("      <pubdate>%s</pubdate>\n" % (info['pubdate']))
+  outfile.write("      <itues:order>%s</itunes:order>\n" % (info['id']))
   outfile.write("      <description>%s</description>\n" % (info['description']))
   outfile.write("      <itunes:summary>%s</itunes:summary>\n" % (info['description']))
   outfile.write("      <itunes:subtitle>%s</itunes:subtitle>\n" % (info['shortDesc']))
