@@ -1,11 +1,31 @@
-#!/usr/bin/env python2
-#This is a friday-night hack. Please excuse the hackieness. 
+#!/usr/bin/env python3
+"""This is a friday-night hack. Please excuse the hackieness. 
 
-import ConfigParser
+Looks in a mysql database for information about urls to publish as a podcast. 
+Takes an ini-file as the only argument
+
+Copyright (C) 2015 Joshua Gordon <github@joshgordon.net>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 2 as published by the Free Software Foundation
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+A copy of the GNU General Public License version 2 can be obtained at 
+http://www.gnu.org/licenses/gpl-2.0.html or by writing to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+"""
+
+import configparser
 import sys
 import os
 from datetime import datetime
-import MySQLdb as mdb 
+import pymysql as mdb 
 
 # write out the header: 
 def writeHeader(config, outfile): 
@@ -56,11 +76,11 @@ def writeHeader(config, outfile):
 def addEpisode(info, outfile): 
   outfile.write("    <item>\n") 
   outfile.write("      <title>%s</title>\n" % (info['title']))
-  outfile.write("      <pubdate>%s</pubdate>\n" % (info['pubdate']))
-  outfile.write("      <itues:order>%s</itunes:order>\n" % (info['id']))
+  outfile.write("      <pubDate>%s</pubDate>\n" % (info['pubdate']))
+  outfile.write("      <itunes:order>%s</itunes:order>\n" % (info['id']))
   outfile.write("      <description>%s</description>\n" % (info['description']))
   outfile.write("      <itunes:summary>%s</itunes:summary>\n" % (info['description']))
-  outfile.write("      <itunes:subtitle>%s</itunes:subtitle>\n" % (info['shortDesc']))
+  outfile.write("      <itunes:subtitle>%s</itunes:subtitle>\n" % (info['description']))
   length=info['length']
   outfile.write("""      <enclosure url="%s" type="audio/mpeg" length="%s" />\n""" % (info['link'], length))
   outfile.write("      <guid>%s</guid>\n" % (info['link']))
@@ -74,7 +94,7 @@ def writeFooter(outfile):
 
 if __name__ == "__main__": 
   
-  config = ConfigParser.ConfigParser() 
+  config = configparser.ConfigParser() 
   config.read(sys.argv[1])
   try: 
     os.remove(config.get('podcast', 'outputFileName'))

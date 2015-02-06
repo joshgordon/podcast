@@ -1,16 +1,32 @@
-#!/usr/bin/env python2
-# does some magic fu to read id3 tags from an episode and adds them to the 
-# database. 
+#!/usr/bin/env python3
+"""does some magic fu to read id3 tags from an episode and adds them to the 
+database. 
 
-import MySQLdb as mdb
-import ConfigParser
+Copyright (C) 2015 Joshua Gordon <github@joshgordon.net>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 2 as published by the Free Software Foundation
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+A copy of the GNU General Public License version 2 can be obtained at 
+http://www.gnu.org/licenses/gpl-2.0.html or by writing to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+"""
+import pymysql as mdb
+import configparser
 import sys 
 import subprocess
 import xml.etree.ElementTree as ET
 import re
 from datetime import datetime
 
-config = ConfigParser.ConfigParser() 
+config = configparser.ConfigParser() 
 config.read(sys.argv[1]) 
 
 filename=sys.argv[2]
@@ -43,7 +59,7 @@ for tag in root[0][0]:
   elif tag.tag == "Comment": 
     comment=tag.text
   elif tag.tag == "Duration": 
-    print tag.text
+    print(tag.text)
     len = t_re.search(tag.text)
     time = int(len.group(1)) * 60 + int(len.group(2)) 
 
