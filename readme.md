@@ -23,6 +23,12 @@ Your mysql table should look like this
 These scripts support multiple podcasts by having multiple config files. Config
 files are specified on the command line. 
 
+this can be done with 
+
+```
+create table music(id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, title varchar(512), link varchar(1024), pubdate varchar(255), creator varchar(255), series varchar(255), description varchar(1024), shortDesc varchar(255), length int(11), comment varchar(255)); 
+```
+
 ## Example
     ./makePodcast.py example.ini 
 
