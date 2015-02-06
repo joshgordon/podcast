@@ -19,4 +19,35 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 """
 
+import csv
+import addEpisode
+import sys
+import urllib.parse
 
+URL_PREFIX = "http://archive.spepmedia.com"
+
+filemap = {"music": "music.ini", "sermon": "sermons.ini"}
+writermap = dict() 
+for key, value in filemap.items(): 
+  writermap[key] = addEpisode.EpisodeWriter(value) 
+
+def parseAndAdd(csvfile):
+  with open(csvfile) as csvfile:
+    rows = csv.reader(csvfile)
+    for row in rows:
+      if row[4] in filemap: 
+        print(checkExistence(URL_PREFIX + urllib.parse.quote(row[1]), row[4]))
+        print(', '.join(row))
+
+def checkExistence(url, contentType):
+  print(contentType)
+  return writermap[contentType].checkExistence(url)
+  
+      
+if __name__ == "__main__":
+  if len(sys.argv) < 2:
+    print("Usage {} /path/to/featured.csv".format(sys.argv[0]))
+    sys.exit(1)
+  parseAndAdd(sys.argv[1])
+  
+  
