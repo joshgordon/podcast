@@ -35,7 +35,7 @@ class EpisodeWriter():
     self.config.read(configFile) 
 
   """Pass in the URL to an MP3 file on the internet.""" 
-  def writeEpisode(self, filename): 
+  def writeEpisode(self, filename):
     xml=subprocess.check_output(['mediainfo', filename, '--output=XML'])
     
     root = ET.fromstring(xml) 

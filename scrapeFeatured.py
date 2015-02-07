@@ -34,13 +34,15 @@ for key, value in filemap.items():
 def parseAndAdd(csvfile):
   with open(csvfile) as csvfile:
     rows = csv.reader(csvfile)
-    for row in rows:
+    for row in reversed(list(rows)):
       if row[4] in filemap: 
-        print(checkExistence(URL_PREFIX + urllib.parse.quote(row[1]), row[4]))
-        print(', '.join(row))
+        if not checkExistence(URL_PREFIX + urllib.parse.quote(row[1]), row[4]):
+          print(row[1] + " is new") 
+          writermap[row[4]].writeEpisode(URL_PREFIX + urllib.parse.quote(row[1]))
+        else:
+          print(row[1] + " already in db")
 
 def checkExistence(url, contentType):
-  print(contentType)
   return writermap[contentType].checkExistence(url)
   
       
